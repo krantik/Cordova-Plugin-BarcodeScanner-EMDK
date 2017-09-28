@@ -13,6 +13,16 @@ function EmdkBarcode () {
 	}, "EmdkBarcode", "init", []);
 }
 
+EmdkBarcode.prototype.initialize = function (successCallback, errorCallback) {
+    argscheck.checkArgs('fF', 'EmdkBarcode.initialize', arguments);
+    exec(successCallback, errorCallback, "EmdkBarcode", "init", []);
+};
+
+EmdkBarcode.prototype.close = function (successCallback, errorCallback) {
+    argscheck.checkArgs('fF', 'EmdkBarcode.close', arguments);
+    exec(successCallback, errorCallback, "EmdkBarcode", "close", []);
+};
+
 EmdkBarcode.prototype.startHardRead = function (successCallback, errorCallback) {
 	argscheck.checkArgs('fF', 'EmdkBarcode.startHardRead', arguments);
 	exec(successCallback, errorCallback, "EmdkBarcode", "startHardRead", []);

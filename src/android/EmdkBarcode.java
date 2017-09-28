@@ -110,6 +110,15 @@ public class EmdkBarcode extends CordovaPlugin implements Serializable, EMDKMana
 			});
 		}
 
+        else if (action.equalsIgnoreCase("close")) {
+			Log.d(LOG_TAG, "Close Scanner");
+			cordova.getThreadPool().execute(new Runnable() {
+				public void run() {
+					close();
+				}
+			});
+		}
+
 		else {
 			return false;
 		}
@@ -214,6 +223,32 @@ public class EmdkBarcode extends CordovaPlugin implements Serializable, EMDKMana
 				Log.e(LOG_TAG, "Error stopping read");
 			}
 		}
+	}
+
+	private void close() {
+    	Log.e(LOG_TAG, "Closing scanner");
+
+	    if (scanner == null)
+        {
+             Log.e(LOG_TAG, "Scanner not initialized.");
+             return;
+        }
+
+        try {
+            scanner.cancelRead();
+            scanner.removeDataListener(this);
+            scanner.removeStatusListener(this);
+            scanner.disable();
+            scanner = null;
+        } catch (ScannerException e) {
+            Log.e(LOG_TAG, "Exception disabling Scanner");
+        }
+
+        if (emdkManager != null) {
+            Log.w(LOG_TAG, "Destroy scanner");
+            emdkManager.release(EMDKManager.FEATURE_TYPE.BARCODE);
+            emdkManager = null;
+        }
 	}
 
 
